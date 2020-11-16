@@ -14,7 +14,7 @@ const LibrarySong: React.FC<LibrarySongProps> = ({ song }) => {
       <img src={song.cover} alt={song.name} />
       <div className="library-song-information">
         <h3>{song.name}</h3>
-        <h4>{song.artist}</h4>
+        <p>{song.artist}</p>
       </div>
     </div>
   )

@@ -13,7 +13,7 @@ interface LibraryProps {
 const Library: React.FC<LibraryProps> = ({ songs }) => {
   return (
     <div className="library">
-      <h2>Library</h2>
+      <h1>Library</h1>
       <div className="library-songs">
         {songs.map(song => (
           <LibrarySong song={song} />
