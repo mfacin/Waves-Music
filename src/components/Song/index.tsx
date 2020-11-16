@@ -2,12 +2,26 @@ import React from 'react'
 
 import './styles.scss'
 
-const Song: React.FC = () => {
+export interface SongInt {
+  name: string
+  cover: string
+  artist: string
+  audio: string
+  color: [string, string]
+  id: string
+  active: boolean
+}
+
+interface SongProps {
+  currentSong: SongInt
+}
+
+const Song: React.FC<SongProps> = ({ currentSong }) => {
   return (
     <div className="song-container">
-      <h1>Picture</h1>
-      <h1>Song Name</h1>
-      <h2>Artist</h2>
+      <img src={currentSong.cover} alt={currentSong.name} />
+      <h2>{currentSong.name}</h2>
+      <h3>{currentSong.artist}</h3>
     </div>
   )
 }

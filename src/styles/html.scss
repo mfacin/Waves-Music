@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  // firefox scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: #84cbfd #d9efff;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  color: rgb(38, 47, 66);
+}
+
+// scrollbar
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #d9efff;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #84cbfd;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #57b9ff;
+}
