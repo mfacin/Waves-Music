@@ -21,7 +21,7 @@ const Song: React.FC<SongProps> = ({ currentSong }) => {
     <div className="song-container">
       <img src={currentSong.cover} alt={currentSong.name} />
       <h1>{currentSong.name}</h1>
-      <h3>{currentSong.artist}</h3>
+      <p>{currentSong.artist}</p>
     </div>
   )
 }

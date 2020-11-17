@@ -10,6 +10,7 @@
   left: 0;
   bottom: 0;
 
+  background-color: #fff;
   box-shadow: 0 0 20px #ccc;
 
   h1 {
@@ -18,6 +19,7 @@
   }
 
   .library-songs {
+    flex: 1;
     padding: 8px;
     padding-bottom: 0;
     overflow-y: scroll;

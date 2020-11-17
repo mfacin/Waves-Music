@@ -35,6 +35,16 @@ const chillHop = (): Array<SongInt> => {
       active: false,
     },
     {
+      name: 'Deeper',
+      cover:
+        'https://chillhop.com/wp-content/uploads/2020/10/23fdd99adc3e16abcb67b004ea3e748ebf433a49-1024x1024.jpg',
+      artist: 'Aviino',
+      audio: 'https://mp3.chillhop.com/serve.php/?mp3=10460',
+      color: ['#F17EB7', '#91B4EA'],
+      id: uuidv4(),
+      active: false,
+    },
+    {
       name: 'Nightfall',
       cover:
         'https://chillhop.com/wp-content/uploads/2020/07/ef95e219a44869318b7806e9f0f794a1f9c451e4-1024x1024.jpg',
@@ -55,12 +65,42 @@ const chillHop = (): Array<SongInt> => {
       active: false,
     },
     {
+      name: 'Hidden Structure',
+      cover:
+        'https://chillhop.com/wp-content/uploads/2020/09/88e7eb711f8c71d87fc102e97cf91e36f692348d-1024x1024.jpg',
+      artist: 'Leavv, Flitz&Suppe',
+      audio: 'https://mp3.chillhop.com/serve.php/?mp3=9913',
+      color: ['#B0D9B6', '#184F54'],
+      id: uuidv4(),
+      active: false,
+    },
+    {
       name: 'Under the City Stars',
       cover:
         'https://chillhop.com/wp-content/uploads/2020/09/0255e8b8c74c90d4a27c594b3452b2daafae608d-1024x1024.jpg',
       artist: 'Aso, Middle School, Aviino',
       audio: 'https://mp3.chillhop.com/serve.php/?mp3=10074',
       color: ['#205950', '#2ab3bf'],
+      id: uuidv4(),
+      active: false,
+    },
+    {
+      name: 'Bluetooth Ringtone',
+      cover:
+        'https://chillhop.com/wp-content/uploads/2020/10/23fdd99adc3e16abcb67b004ea3e748ebf433a49-1024x1024.jpg',
+      artist: 'Aviino',
+      audio: 'https://mp3.chillhop.com/serve.php/?mp3=10446',
+      color: ['#F17EB7', '#91B4EA'],
+      id: uuidv4(),
+      active: false,
+    },
+    {
+      name: 'Aqueduct',
+      cover:
+        'https://chillhop.com/wp-content/uploads/2020/09/88e7eb711f8c71d87fc102e97cf91e36f692348d-1024x1024.jpg',
+      artist: 'Leavv',
+      audio: 'https://mp3.chillhop.com/serve.php/?mp3=9921',
+      color: ['#B0D9B6', '#184F54'],
       id: uuidv4(),
       active: false,
     },

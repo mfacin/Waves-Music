@@ -4,6 +4,7 @@ import React, {
   SyntheticEvent,
   BaseSyntheticEvent,
   ChangeEvent,
+  useEffect,
 } from 'react'
 import { Play, Pause, ArrowLeft, ArrowRight } from 'react-feather'
 
@@ -15,7 +16,7 @@ import './styles.scss'
 interface PlayerProps {
   currentSong: SongInt
   isPlaying: boolean
-  setIsPlaying: Function
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface SongInfoInt {
@@ -35,26 +36,36 @@ const Player: React.FC<PlayerProps> = ({
 
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const handlePlayPauseSong = () => {
+  // play/pause the song when the state changes
+  // keep playing when the current song changes
+  useEffect(() => {
     if (isPlaying) {
-      setIsPlaying(false)
-      audioRef.current?.pause()
-    } else {
-      setIsPlaying(true)
       audioRef.current?.play()
+    } else {
+      audioRef.current?.pause()
     }
+  }, [currentSong, isPlaying])
+
+  const handlePlayPauseSong = () => {
+    setIsPlaying(prevState => !prevState)
   }
 
+  // update the range information with the current time
   const handleTimeUpdate = (e: SyntheticEvent<HTMLAudioElement>) => {
     const {
       target: { currentTime, duration },
     } = e as BaseSyntheticEvent
 
-    setSongInfo(prevState => ({ ...prevState, duration, currentTime }))
+    setSongInfo(prevState => ({
+      ...prevState,
+      duration: isNaN(duration) ? 0 : duration,
+      currentTime,
+    }))
   }
 
   const handleRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!audioRef.current?.currentTime) return
+    if (!audioRef.current?.currentTime && audioRef.current?.currentTime !== 0)
+      return
 
     const currentTime = Number(e.target.value)
 
@@ -76,15 +87,37 @@ const Player: React.FC<PlayerProps> = ({
         <p>{timeFormater(songInfo.duration)}</p>
       </div>
       <div className="play-control">
-        <ArrowLeft className="skip-back" size={30} />
+        <ArrowLeft
+          className="skip-back"
+          size={30}
+          strokeWidth={1.5}
+          color="#262f42"
+        />
 
         {isPlaying ? (
-          <Pause onClick={handlePlayPauseSong} className="pause" size={40} />
+          <Pause
+            onClick={handlePlayPauseSong}
+            className="pause"
+            size={40}
+            strokeWidth={1.5}
+            color="#262f42"
+          />
         ) : (
-          <Play onClick={handlePlayPauseSong} className="play" size={40} />
+          <Play
+            onClick={handlePlayPauseSong}
+            className="play"
+            size={40}
+            strokeWidth={1.5}
+            color="#262f42"
+          />
         )}
 
-        <ArrowRight className="skip-forward" size={30} />
+        <ArrowRight
+          className="skip-forward"
+          size={30}
+          strokeWidth={1.5}
+          color="#262f42"
+        />
       </div>
       <audio
         onTimeUpdate={handleTimeUpdate}
