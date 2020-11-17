@@ -7,18 +7,20 @@ import { SongInt } from '../Song'
 import './styles.scss'
 
 interface LibraryProps {
+  isLibraryOpen: boolean
   songs: Array<SongInt>
   setCurrentSong: React.Dispatch<React.SetStateAction<SongInt>>
   setSongs: React.Dispatch<React.SetStateAction<SongInt[]>>
 }
 
 const Library: React.FC<LibraryProps> = ({
+  isLibraryOpen,
   songs,
   setCurrentSong,
   setSongs,
 }) => {
   return (
-    <div className="library">
+    <div className={`library ${isLibraryOpen ? 'open' : ''}`}>
       <h1>Library</h1>
       <div className="library-songs">
         {songs.map(song => (

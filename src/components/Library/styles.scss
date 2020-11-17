@@ -13,6 +13,13 @@
   background-color: #fff;
   box-shadow: 0 0 20px #ccc;
 
+  transform: translateX(-100%);
+  transition: transform 0.2s ease;
+
+  &.open {
+    transform: translateX(0);
+  }
+
   h1 {
     text-align: center;
     margin: 12px 0 16px;

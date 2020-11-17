@@ -1,12 +1,12 @@
 import React, {
   useState,
+  useEffect,
   useRef,
   SyntheticEvent,
   BaseSyntheticEvent,
   ChangeEvent,
-  useEffect,
 } from 'react'
-import { Play, Pause, ArrowLeft, ArrowRight } from 'react-feather'
+import { Play, Pause, SkipBack, SkipForward } from 'react-feather'
 
 import timeFormater from '../../utils/timeFormater'
 import { SongInt } from '../Song'
@@ -87,7 +87,7 @@ const Player: React.FC<PlayerProps> = ({
         <p>{timeFormater(songInfo.duration)}</p>
       </div>
       <div className="play-control">
-        <ArrowLeft
+        <SkipBack
           className="skip-back"
           size={30}
           strokeWidth={1.5}
@@ -112,7 +112,7 @@ const Player: React.FC<PlayerProps> = ({
           />
         )}
 
-        <ArrowRight
+        <SkipForward
           className="skip-forward"
           size={30}
           strokeWidth={1.5}
