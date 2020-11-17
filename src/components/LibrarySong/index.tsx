@@ -11,18 +11,9 @@ interface LibrarySongProps {
   setSongs: React.Dispatch<React.SetStateAction<SongInt[]>>
 }
 
-const LibrarySong: React.FC<LibrarySongProps> = ({
-  song,
-  songs,
-  setCurrentSong,
-  setSongs,
-}) => {
+const LibrarySong: React.FC<LibrarySongProps> = ({ song, setCurrentSong }) => {
   const handleSongSelect = async () => {
     setCurrentSong(song)
-
-    setSongs(prevState =>
-      prevState.map(state => ({ ...state, active: state.id === song.id }))
-    )
   }
 
   return (

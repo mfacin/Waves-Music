@@ -22,10 +22,12 @@
 
   .play-control {
     width: 100%;
+    max-width: 450px;
+    padding: 1rem;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
 
     svg {
       cursor: pointer;

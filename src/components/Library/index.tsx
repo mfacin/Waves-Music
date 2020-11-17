@@ -21,7 +21,7 @@ const Library: React.FC<LibraryProps> = ({
 }) => {
   return (
     <div className={`library ${isLibraryOpen ? 'open' : ''}`}>
-      <h1>Library</h1>
+      <h2>Library</h2>
       <div className="library-songs">
         {songs.map(song => (
           <LibrarySong

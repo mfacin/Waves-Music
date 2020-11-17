@@ -15,8 +15,10 @@ import './styles.scss'
 
 interface PlayerProps {
   currentSong: SongInt
+  setCurrentSong: React.Dispatch<React.SetStateAction<SongInt>>
   isPlaying: boolean
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
+  songs: Array<SongInt>
 }
 
 interface SongInfoInt {
@@ -24,8 +26,15 @@ interface SongInfoInt {
   duration: number
 }
 
+enum SkipDirection {
+  BACK = -1,
+  FORWARD = 1,
+}
+
 const Player: React.FC<PlayerProps> = ({
   currentSong,
+  setCurrentSong,
+  songs,
   isPlaying,
   setIsPlaying,
 }) => {
@@ -46,7 +55,12 @@ const Player: React.FC<PlayerProps> = ({
     }
   }, [currentSong, isPlaying])
 
+  const findSongIndex = () =>
+    songs.findIndex(song => song.id === currentSong.id)
+
   const handlePlayPauseSong = () => {
+    if (!songInfo.duration) return
+
     setIsPlaying(prevState => !prevState)
   }
 
@@ -73,6 +87,16 @@ const Player: React.FC<PlayerProps> = ({
     audioRef.current.currentTime = currentTime
   }
 
+  const handleSkipTrack = (direction: SkipDirection) => {
+    const currentSongIndex = findSongIndex()
+
+    const newSong = songs[currentSongIndex + direction]
+
+    if (!newSong) return
+
+    setCurrentSong(newSong)
+  }
+
   return (
     <div className="player">
       <div className="time-control">
@@ -88,10 +112,11 @@ const Player: React.FC<PlayerProps> = ({
       </div>
       <div className="play-control">
         <SkipBack
+          onClick={() => handleSkipTrack(SkipDirection.BACK)}
           className="skip-back"
           size={30}
           strokeWidth={1.5}
-          color="#262f42"
+          color={songs[findSongIndex() - 1] ? '#262f42' : '#aaa'}
         />
 
         {isPlaying ? (
@@ -100,7 +125,7 @@ const Player: React.FC<PlayerProps> = ({
             className="pause"
             size={40}
             strokeWidth={1.5}
-            color="#262f42"
+            color={songInfo.duration ? '#262f42' : '#aaa'}
           />
         ) : (
           <Play
@@ -108,15 +133,16 @@ const Player: React.FC<PlayerProps> = ({
             className="play"
             size={40}
             strokeWidth={1.5}
-            color="#262f42"
+            color={songInfo.duration ? '#262f42' : '#aaa'}
           />
         )}
 
         <SkipForward
+          onClick={() => handleSkipTrack(SkipDirection.FORWARD)}
           className="skip-forward"
           size={30}
           strokeWidth={1.5}
-          color="#262f42"
+          color={songs[findSongIndex() + 1] ? '#262f42' : '#aaa'}
         />
       </div>
       <audio

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Nav from './components/Nav'
 import Library from './components/Library'
@@ -16,6 +16,15 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLibraryOpen, setIsLibraryOpen] = useState(false)
 
+  useEffect(() => {
+    setSongs(prevState =>
+      prevState.map(state => ({
+        ...state,
+        active: state.id === currentSong.id,
+      }))
+    )
+  }, [currentSong])
+
   return (
     <div className="App">
       <Library
@@ -32,9 +41,11 @@ function App() {
         />
         <Song currentSong={currentSong} />
         <Player
+          currentSong={currentSong}
+          setCurrentSong={setCurrentSong}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
-          currentSong={currentSong}
+          songs={songs}
         />
       </main>
     </div>
