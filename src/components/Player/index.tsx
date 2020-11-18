@@ -56,9 +56,6 @@ const Player: React.FC<PlayerProps> = ({
     }
   }, [currentSong, isPlaying])
 
-  const findSongIndex = () =>
-    songs.findIndex(song => song.id === currentSong.id)
-
   useEffect(() => {
     // calculate percentage
     const roundedCurrent = Math.floor(Number(songInfo.currentTime))
@@ -67,6 +64,9 @@ const Player: React.FC<PlayerProps> = ({
 
     setPercentage(newPercentage)
   }, [songInfo])
+
+  const findSongIndex = () =>
+    songs.findIndex(song => song.id === currentSong.id)
 
   const handlePlayPauseSong = () => {
     if (!songInfo.duration) return
@@ -101,6 +101,11 @@ const Player: React.FC<PlayerProps> = ({
     const currentSongIndex = findSongIndex()
 
     const newSong = songs[currentSongIndex + direction]
+
+    if (!newSong && direction === SkipDirection.FORWARD) {
+      setIsPlaying(false)
+      return
+    }
 
     if (!newSong) return
 
@@ -173,10 +178,11 @@ const Player: React.FC<PlayerProps> = ({
         />
       </div>
       <audio
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleTimeUpdate}
         ref={audioRef}
         src={currentSong.audio}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleTimeUpdate}
+        onEnded={() => handleSkipTrack(SkipDirection.FORWARD)}
       ></audio>
     </div>
   )
