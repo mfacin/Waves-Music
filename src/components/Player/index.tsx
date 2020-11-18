@@ -42,6 +42,7 @@ const Player: React.FC<PlayerProps> = ({
     currentTime: 0,
     duration: 0,
   })
+  const [percentage, setPercentage] = useState(0)
 
   const audioRef = useRef<HTMLAudioElement>(null)
 
@@ -57,6 +58,15 @@ const Player: React.FC<PlayerProps> = ({
 
   const findSongIndex = () =>
     songs.findIndex(song => song.id === currentSong.id)
+
+  useEffect(() => {
+    // calculate percentage
+    const roundedCurrent = Math.floor(Number(songInfo.currentTime))
+    const roundedDuration = Math.floor(songInfo.duration)
+    const newPercentage = Math.floor((roundedCurrent / roundedDuration) * 100)
+
+    setPercentage(newPercentage)
+  }, [songInfo])
 
   const handlePlayPauseSong = () => {
     if (!songInfo.duration) return
@@ -101,15 +111,32 @@ const Player: React.FC<PlayerProps> = ({
     <div className="player">
       <div className="time-control">
         <p>{timeFormater(songInfo.currentTime)}</p>
-        <input
-          min={0}
-          max={songInfo.duration}
-          value={songInfo.currentTime}
-          onChange={handleRangeChange}
-          type="range"
-        />
+
+        <div className="track">
+          <input
+            min={0}
+            max={songInfo.duration}
+            value={songInfo.currentTime}
+            onChange={handleRangeChange}
+            type="range"
+          />
+
+          <div
+            className="animate-track-container"
+            style={{
+              background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})`,
+            }}
+          >
+            <div
+              className="animate-track"
+              style={{ transform: `translateX(${percentage}%)` }}
+            ></div>
+          </div>
+        </div>
+
         <p>{timeFormater(songInfo.duration)}</p>
       </div>
+
       <div className="play-control">
         <SkipBack
           onClick={() => handleSkipTrack(SkipDirection.BACK)}

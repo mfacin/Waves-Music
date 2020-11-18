@@ -32,13 +32,6 @@ const Library: React.FC<LibraryProps> = ({
             setSongs={setSongs}
           />
         ))}
-        {/* {songs.map(song => (
-          <LibrarySong
-            key={song.id}
-            song={song}
-            setCurrentSong={setCurrentSong}
-          />
-        ))} */}
       </div>
     </div>
   )
