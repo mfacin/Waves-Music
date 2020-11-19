@@ -9,10 +9,19 @@ interface LibrarySongProps {
   songs: Array<SongInt>
   setCurrentSong: React.Dispatch<React.SetStateAction<SongInt>>
   setSongs: React.Dispatch<React.SetStateAction<SongInt[]>>
+  setIsLibraryOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const LibrarySong: React.FC<LibrarySongProps> = ({ song, setCurrentSong }) => {
+const LibrarySong: React.FC<LibrarySongProps> = ({
+  song,
+  setCurrentSong,
+  setIsLibraryOpen,
+}) => {
   const handleSongSelect = async () => {
+    if (window.innerWidth <= 768) {
+      setIsLibraryOpen(false)
+    }
+
     setCurrentSong(song)
   }
 

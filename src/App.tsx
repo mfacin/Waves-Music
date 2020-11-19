@@ -32,6 +32,7 @@ function App() {
         songs={songs}
         setCurrentSong={setCurrentSong}
         isLibraryOpen={isLibraryOpen}
+        setIsLibraryOpen={setIsLibraryOpen}
       />
 
       <main>

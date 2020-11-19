@@ -9,6 +9,7 @@
   top: 0;
   left: 0;
   bottom: 0;
+  z-index: 1000;
 
   background-color: #fff;
   box-shadow: 0 0 20px #ccc;
@@ -16,13 +17,23 @@
   transform: translateX(-100%);
   transition: transform 0.2s ease;
 
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
   &.open {
     transform: translateX(0);
   }
 
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 8px 16px;
+  }
+
   h2 {
     text-align: center;
-    margin: 12px 0 16px;
   }
 
   .library-songs {

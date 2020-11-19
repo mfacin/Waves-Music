@@ -1,4 +1,5 @@
 import React from 'react'
+import { X } from 'react-feather'
 
 import LibrarySong from '../LibrarySong'
 
@@ -11,6 +12,7 @@ interface LibraryProps {
   songs: Array<SongInt>
   setCurrentSong: React.Dispatch<React.SetStateAction<SongInt>>
   setSongs: React.Dispatch<React.SetStateAction<SongInt[]>>
+  setIsLibraryOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Library: React.FC<LibraryProps> = ({
@@ -18,10 +20,14 @@ const Library: React.FC<LibraryProps> = ({
   songs,
   setCurrentSong,
   setSongs,
+  setIsLibraryOpen,
 }) => {
   return (
     <div className={`library ${isLibraryOpen ? 'open' : ''}`}>
-      <h2>Library</h2>
+      <div className="title">
+        <h2>Library</h2>
+        <X onClick={() => setIsLibraryOpen(false)} />
+      </div>
       <div className="library-songs">
         {songs.map(song => (
           <LibrarySong
@@ -30,6 +36,7 @@ const Library: React.FC<LibraryProps> = ({
             songs={songs}
             setCurrentSong={setCurrentSong}
             setSongs={setSongs}
+            setIsLibraryOpen={setIsLibraryOpen}
           />
         ))}
       </div>
