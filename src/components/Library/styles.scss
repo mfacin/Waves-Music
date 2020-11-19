@@ -1,5 +1,6 @@
 .library {
   width: 20rem;
+  margin: 12px;
   padding: 8px;
 
   display: flex;
@@ -10,14 +11,15 @@
   left: 0;
   bottom: 0;
   z-index: 1000;
+  border-radius: 10px;
 
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 
-  transform: translateX(-100%);
+  transform: translateX(calc(-100% - 24px));
   transition: transform 0.2s ease, background-color 0.2s ease;
 
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: calc(100% - 24px);
   }
 
   &.open {
@@ -37,8 +39,7 @@
 
   .library-songs {
     flex: 1;
-    padding: 8px;
-    padding-bottom: 0;
+    padding: 0 8px;
     overflow-y: scroll;
   }
 }

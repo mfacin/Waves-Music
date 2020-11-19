@@ -143,7 +143,10 @@ const Player: React.FC<PlayerProps> = ({
       </div>
 
       <div className="play-control">
-        <button onClick={() => handleSkipTrack(SkipDirection.BACK)}>
+        <button
+          disabled={!songs[findSongIndex() - 1]}
+          onClick={() => handleSkipTrack(SkipDirection.BACK)}
+        >
           <SkipBack
             className={`skip-back ${
               !songs[findSongIndex() - 1] ? 'disabled' : ''
@@ -153,34 +156,19 @@ const Player: React.FC<PlayerProps> = ({
           />
         </button>
 
-        <button onClick={handlePlayPauseSong}>
+        <button disabled={!songInfo.duration} onClick={handlePlayPauseSong}>
           {isPlaying ? (
-            <Pause
-              className={`pause ${
-                !songs[findSongIndex() - 1] ? 'disabled' : ''
-              }`}
-              size={40}
-              strokeWidth={1.5}
-            />
+            <Pause className="pause" size={40} strokeWidth={1.5} />
           ) : (
-            <Play
-              className={`play ${
-                !songs[findSongIndex() - 1] ? 'disabled' : ''
-              }`}
-              size={40}
-              strokeWidth={1.5}
-            />
+            <Play className="play" size={40} strokeWidth={1.5} />
           )}
         </button>
 
-        <button onClick={() => handleSkipTrack(SkipDirection.FORWARD)}>
-          <SkipForward
-            className={`skip-forward ${
-              !songs[findSongIndex() - 1] ? 'disabled' : ''
-            }`}
-            size={30}
-            strokeWidth={1.5}
-          />
+        <button
+          disabled={!songs[findSongIndex() + 1]}
+          onClick={() => handleSkipTrack(SkipDirection.FORWARD)}
+        >
+          <SkipForward className="skip-forward" size={30} strokeWidth={1.5} />
         </button>
       </div>
       <audio

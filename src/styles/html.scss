@@ -43,6 +43,15 @@ button {
   &:hover {
     background-color: rgba(82, 182, 253, 0.25);
   }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
 }
 
 // scrollbar
