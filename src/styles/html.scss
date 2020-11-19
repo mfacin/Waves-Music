@@ -10,7 +10,7 @@
 
   // firefox scrollbar
   scrollbar-width: thin;
-  scrollbar-color: #84cbfd #d9efff;
+  scrollbar-color: rgba(82, 182, 253, 0.25) rgba(82, 182, 253, 0.25);
 
   -webkit-tap-highlight-color: transparent;
 }
@@ -26,11 +26,23 @@ h2,
 h3 {
   font-family: 'Comfortaa', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: normal;
-  color: #262f42;
 }
 
-p {
-  color: #404e6b;
+button {
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+
+  border: none;
+  border-radius: 5px;
+  background: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(82, 182, 253, 0.25);
+  }
 }
 
 // scrollbar
@@ -40,15 +52,16 @@ p {
 }
 
 ::-webkit-scrollbar-track {
-  background: #d9efff;
+  background-color: rgba(82, 182, 253, 0.25);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #84cbfd;
+  background-color: rgba(82, 182, 253, 0.5);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #57b9ff;
+  background-color: rgba(23, 158, 255, 0.8);
+  background-color: rgba(82, 182, 253, 0.8);
 }

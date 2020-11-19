@@ -38,6 +38,14 @@
         height: 12px;
       }
 
+      input[type='range']::-moz-range-thumb {
+        appearance: none;
+        background: transparent;
+        border: none;
+        width: 12px;
+        height: 12px;
+      }
+
       .animate-track-container {
         width: 100%;
         height: 100%;
@@ -54,8 +62,6 @@
           width: 100%;
           height: 100%;
 
-          background-color: #d9efff;
-
           transform: translateX(50%);
         }
       }
@@ -69,7 +75,6 @@
   .play-control {
     width: 100%;
     max-width: 450px;
-    padding: 1rem;
 
     display: flex;
     justify-content: space-between;

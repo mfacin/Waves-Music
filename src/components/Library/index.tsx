@@ -26,7 +26,9 @@ const Library: React.FC<LibraryProps> = ({
     <div className={`library ${isLibraryOpen ? 'open' : ''}`}>
       <div className="title">
         <h2>Library</h2>
-        <X onClick={() => setIsLibraryOpen(false)} />
+        <button onClick={() => setIsLibraryOpen(false)}>
+          <X />
+        </button>
       </div>
       <div className="library-songs">
         {songs.map(song => (

@@ -15,6 +15,7 @@ function App() {
   const [currentSong, setCurrentSong] = useState(songs[0])
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLibraryOpen, setIsLibraryOpen] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(false)
 
   useEffect(() => {
     setSongs(prevState =>
@@ -26,7 +27,7 @@ function App() {
   }, [currentSong])
 
   return (
-    <div className="App">
+    <div className={`app ${isDarkMode ? 'dark' : ''}`}>
       <Library
         setSongs={setSongs}
         songs={songs}
@@ -37,8 +38,10 @@ function App() {
 
       <main>
         <Nav
-          setIsLibraryOpen={setIsLibraryOpen}
           isLibraryOpen={isLibraryOpen}
+          setIsLibraryOpen={setIsLibraryOpen}
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
         />
         <Song currentSong={currentSong} />
         <Player

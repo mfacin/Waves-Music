@@ -1,4 +1,61 @@
-main {
-  max-width: 700px;
-  margin: 0 auto;
+.app {
+  background-color: #f6fbff;
+  height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  transition: background-color 0.2s ease;
+
+  h1,
+  h2,
+  h3,
+  svg {
+    color: #262f42;
+    transition: color 0.2s ease;
+  }
+
+  p {
+    color: #404e6b;
+    transition: color 0.2s ease;
+  }
+
+  .library {
+    background-color: #f4f9ff;
+  }
+
+  .animate-track {
+    background-color: #d9efff;
+  }
+
+  &.dark {
+    background-color: #1b2127;
+
+    h1,
+    h2,
+    h3,
+    svg {
+      color: #f4f9ff;
+    }
+
+    p {
+      color: #f6fbff;
+    }
+
+    .library {
+      background-color: #14181d;
+    }
+
+    .animate-track {
+      background-color: #28475d;
+    }
+  }
+
+  main {
+    width: 100%;
+    max-width: 700px;
+    padding: 1rem;
+  }
 }

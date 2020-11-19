@@ -4,21 +4,4 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  button {
-    padding: 12px;
-
-    display: flex;
-    align-items: center;
-
-    border: none;
-    border-radius: 5px;
-    background: none;
-    outline: none;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #d9efff;
-    }
-  }
 }

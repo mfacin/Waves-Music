@@ -143,39 +143,45 @@ const Player: React.FC<PlayerProps> = ({
       </div>
 
       <div className="play-control">
-        <SkipBack
-          onClick={() => handleSkipTrack(SkipDirection.BACK)}
-          className="skip-back"
-          size={30}
-          strokeWidth={1.5}
-          color={songs[findSongIndex() - 1] ? '#262f42' : '#aaa'}
-        />
-
-        {isPlaying ? (
-          <Pause
-            onClick={handlePlayPauseSong}
-            className="pause"
-            size={40}
+        <button onClick={() => handleSkipTrack(SkipDirection.BACK)}>
+          <SkipBack
+            className={`skip-back ${
+              !songs[findSongIndex() - 1] ? 'disabled' : ''
+            }`}
+            size={30}
             strokeWidth={1.5}
-            color={songInfo.duration ? '#262f42' : '#aaa'}
           />
-        ) : (
-          <Play
-            onClick={handlePlayPauseSong}
-            className="play"
-            size={40}
-            strokeWidth={1.5}
-            color={songInfo.duration ? '#262f42' : '#aaa'}
-          />
-        )}
+        </button>
 
-        <SkipForward
-          onClick={() => handleSkipTrack(SkipDirection.FORWARD)}
-          className="skip-forward"
-          size={30}
-          strokeWidth={1.5}
-          color={songs[findSongIndex() + 1] ? '#262f42' : '#aaa'}
-        />
+        <button onClick={handlePlayPauseSong}>
+          {isPlaying ? (
+            <Pause
+              className={`pause ${
+                !songs[findSongIndex() - 1] ? 'disabled' : ''
+              }`}
+              size={40}
+              strokeWidth={1.5}
+            />
+          ) : (
+            <Play
+              className={`play ${
+                !songs[findSongIndex() - 1] ? 'disabled' : ''
+              }`}
+              size={40}
+              strokeWidth={1.5}
+            />
+          )}
+        </button>
+
+        <button onClick={() => handleSkipTrack(SkipDirection.FORWARD)}>
+          <SkipForward
+            className={`skip-forward ${
+              !songs[findSongIndex() - 1] ? 'disabled' : ''
+            }`}
+            size={30}
+            strokeWidth={1.5}
+          />
+        </button>
       </div>
       <audio
         ref={audioRef}

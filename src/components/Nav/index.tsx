@@ -6,11 +6,22 @@ import './styles.scss'
 interface NavProps {
   isLibraryOpen: boolean
   setIsLibraryOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isDarkMode: boolean
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Nav: React.FC<NavProps> = ({ isLibraryOpen, setIsLibraryOpen }) => {
+const Nav: React.FC<NavProps> = ({
+  isLibraryOpen,
+  setIsLibraryOpen,
+  isDarkMode,
+  setIsDarkMode,
+}) => {
   const handleOpenLibrary = () => {
     setIsLibraryOpen(prevState => !prevState)
+  }
+
+  const handleChangeDarkMode = () => {
+    setIsDarkMode(prevState => !prevState)
   }
 
   return (
@@ -21,8 +32,8 @@ const Nav: React.FC<NavProps> = ({ isLibraryOpen, setIsLibraryOpen }) => {
 
       <h1>Waves Music</h1>
 
-      <button>
-        <Moon />
+      <button onClick={handleChangeDarkMode}>
+        {isDarkMode ? <Moon /> : <Sun />}
       </button>
     </nav>
   )
