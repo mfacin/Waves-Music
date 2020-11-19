@@ -21,6 +21,11 @@ const Nav: React.FC<NavProps> = ({
   }
 
   const handleChangeDarkMode = () => {
+    const newColor = isDarkMode ? '#d9efff' : '#28475d'
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', newColor)
+
     setIsDarkMode(prevState => !prevState)
   }
 
@@ -33,7 +38,7 @@ const Nav: React.FC<NavProps> = ({
       <h1>Waves Music</h1>
 
       <button onClick={handleChangeDarkMode}>
-        {isDarkMode ? <Moon /> : <Sun />}
+        {isDarkMode ? <Sun /> : <Moon />}
       </button>
     </nav>
   )
