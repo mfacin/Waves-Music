@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
+import { PlayerContext } from '../../contexts/PlayerContext'
 
 import './styles.scss'
 
@@ -12,11 +14,9 @@ export interface SongInt {
   active: boolean
 }
 
-interface SongProps {
-  currentSong: SongInt
-}
+const Song: React.FC = () => {
+  const { currentSong } = useContext(PlayerContext)
 
-const Song: React.FC<SongProps> = ({ currentSong }) => {
   return (
     <div className="song-container">
       <img src={currentSong.cover} alt={currentSong.name} />

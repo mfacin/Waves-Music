@@ -1,58 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import Nav from './components/Nav'
 import Library from './components/Library'
 import Song from './components/Song'
 import Player from './components/Player'
 
-import data from './data'
+import PlayerProvider from './contexts/PlayerContext'
 
 import './styles/html.scss'
 import './styles/app.scss'
 
 function App() {
-  const [songs, setSongs] = useState(data())
-  const [currentSong, setCurrentSong] = useState(songs[0])
-  const [isPlaying, setIsPlaying] = useState(false)
   const [isLibraryOpen, setIsLibraryOpen] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
 
-  useEffect(() => {
-    setSongs(prevState =>
-      prevState.map(state => ({
-        ...state,
-        active: state.id === currentSong.id,
-      }))
-    )
-  }, [currentSong])
-
   return (
-    <div className={`app ${isDarkMode ? 'dark' : ''}`}>
-      <Library
-        setSongs={setSongs}
-        songs={songs}
-        setCurrentSong={setCurrentSong}
-        isLibraryOpen={isLibraryOpen}
-        setIsLibraryOpen={setIsLibraryOpen}
-      />
-
-      <main>
-        <Nav
+    <PlayerProvider>
+      <div className={`app ${isDarkMode ? 'dark' : ''}`}>
+        <Library
           isLibraryOpen={isLibraryOpen}
           setIsLibraryOpen={setIsLibraryOpen}
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
         />
-        <Song currentSong={currentSong} />
-        <Player
-          currentSong={currentSong}
-          setCurrentSong={setCurrentSong}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          songs={songs}
-        />
-      </main>
-    </div>
+
+        <main>
+          <Nav
+            isLibraryOpen={isLibraryOpen}
+            setIsLibraryOpen={setIsLibraryOpen}
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
+          />
+          <Song />
+          <Player />
+        </main>
+      </div>
+    </PlayerProvider>
   )
 }
 

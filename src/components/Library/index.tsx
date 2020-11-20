@@ -1,27 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { X } from 'react-feather'
+import { PlayerContext } from '../../contexts/PlayerContext'
 
 import LibrarySong from '../LibrarySong'
-
-import { SongInt } from '../Song'
 
 import './styles.scss'
 
 interface LibraryProps {
   isLibraryOpen: boolean
-  songs: Array<SongInt>
-  setCurrentSong: React.Dispatch<React.SetStateAction<SongInt>>
-  setSongs: React.Dispatch<React.SetStateAction<SongInt[]>>
   setIsLibraryOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Library: React.FC<LibraryProps> = ({
   isLibraryOpen,
-  songs,
-  setCurrentSong,
-  setSongs,
   setIsLibraryOpen,
 }) => {
+  const { songs } = useContext(PlayerContext)
+
   return (
     <div className={`library ${isLibraryOpen ? 'open' : ''}`}>
       <div className="title">
@@ -35,9 +30,6 @@ const Library: React.FC<LibraryProps> = ({
           <LibrarySong
             key={song.id}
             song={song}
-            songs={songs}
-            setCurrentSong={setCurrentSong}
-            setSongs={setSongs}
             setIsLibraryOpen={setIsLibraryOpen}
           />
         ))}

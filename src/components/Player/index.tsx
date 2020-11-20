@@ -1,48 +1,31 @@
 import React, {
-  useState,
   useEffect,
   useRef,
   SyntheticEvent,
   BaseSyntheticEvent,
   ChangeEvent,
+  useContext,
 } from 'react'
 import { Play, Pause, SkipBack, SkipForward } from 'react-feather'
+import { PlayerContext, SkipDirection } from '../../contexts/PlayerContext'
 
 import timeFormater from '../../utils/timeFormater'
-import { SongInt } from '../Song'
 
 import './styles.scss'
 
-interface PlayerProps {
-  currentSong: SongInt
-  setCurrentSong: React.Dispatch<React.SetStateAction<SongInt>>
-  isPlaying: boolean
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
-  songs: Array<SongInt>
-}
-
-interface SongInfoInt {
-  currentTime: number
-  duration: number
-}
-
-enum SkipDirection {
-  BACK = -1,
-  FORWARD = 1,
-}
-
-const Player: React.FC<PlayerProps> = ({
-  currentSong,
-  setCurrentSong,
-  songs,
-  isPlaying,
-  setIsPlaying,
-}) => {
-  const [songInfo, setSongInfo] = useState<SongInfoInt>({
-    currentTime: 0,
-    duration: 0,
-  })
-  const [percentage, setPercentage] = useState(0)
+const Player: React.FC = () => {
+  const {
+    currentSong,
+    hasNext,
+    hasPreviows,
+    currentTime,
+    duration,
+    percentage,
+    isPlaying,
+    handlePlayPauseSong,
+    handleChangeSongInfo,
+    handleSkipTrack,
+  } = useContext(PlayerContext)
 
   const audioRef = useRef<HTMLAudioElement>(null)
 
@@ -56,72 +39,36 @@ const Player: React.FC<PlayerProps> = ({
     }
   }, [currentSong, isPlaying])
 
-  useEffect(() => {
-    // calculate percentage
-    const roundedCurrent = Math.floor(Number(songInfo.currentTime))
-    const roundedDuration = Math.floor(songInfo.duration)
-    const newPercentage = Math.floor((roundedCurrent / roundedDuration) * 100)
-
-    setPercentage(newPercentage)
-  }, [songInfo])
-
-  const findSongIndex = () =>
-    songs.findIndex(song => song.id === currentSong.id)
-
-  const handlePlayPauseSong = () => {
-    if (!songInfo.duration) return
-
-    setIsPlaying(prevState => !prevState)
-  }
-
   // update the range information with the current time
   const handleTimeUpdate = (e: SyntheticEvent<HTMLAudioElement>) => {
     const {
       target: { currentTime, duration },
     } = e as BaseSyntheticEvent
 
-    setSongInfo(prevState => ({
-      ...prevState,
-      duration: isNaN(duration) ? 0 : duration,
-      currentTime,
-    }))
+    handleChangeSongInfo(currentTime, isNaN(duration) ? 0 : duration)
   }
 
   const handleRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!audioRef.current?.currentTime && audioRef.current?.currentTime !== 0)
       return
 
-    const currentTime = Number(e.target.value)
+    const time = Number(e.target.value)
 
-    setSongInfo(prevState => ({ ...prevState, currentTime }))
-    audioRef.current.currentTime = currentTime
-  }
+    handleChangeSongInfo(time, duration)
 
-  const handleSkipTrack = (direction: SkipDirection) => {
-    const currentSongIndex = findSongIndex()
-
-    const newSong = songs[currentSongIndex + direction]
-
-    if (!newSong && direction === SkipDirection.FORWARD) {
-      setIsPlaying(false)
-      return
-    }
-
-    if (!newSong) return
-
-    setCurrentSong(newSong)
+    audioRef.current.currentTime = time
   }
 
   return (
     <div className="player">
       <div className="time-control">
-        <p>{timeFormater(songInfo.currentTime)}</p>
+        <p>{timeFormater(currentTime)}</p>
 
         <div className="track">
           <input
             min={0}
-            max={songInfo.duration}
-            value={songInfo.currentTime}
+            max={duration}
+            value={currentTime}
             onChange={handleRangeChange}
             type="range"
           />
@@ -139,24 +86,18 @@ const Player: React.FC<PlayerProps> = ({
           </div>
         </div>
 
-        <p>{timeFormater(songInfo.duration)}</p>
+        <p>{timeFormater(duration)}</p>
       </div>
 
       <div className="play-control">
         <button
-          disabled={!songs[findSongIndex() - 1]}
+          disabled={!hasPreviows}
           onClick={() => handleSkipTrack(SkipDirection.BACK)}
         >
-          <SkipBack
-            className={`skip-back ${
-              !songs[findSongIndex() - 1] ? 'disabled' : ''
-            }`}
-            size={30}
-            strokeWidth={1.5}
-          />
+          <SkipBack className="skip-back" size={30} strokeWidth={1.5} />
         </button>
 
-        <button disabled={!songInfo.duration} onClick={handlePlayPauseSong}>
+        <button disabled={!duration} onClick={handlePlayPauseSong}>
           {isPlaying ? (
             <Pause className="pause" size={40} strokeWidth={1.5} />
           ) : (
@@ -165,7 +106,7 @@ const Player: React.FC<PlayerProps> = ({
         </button>
 
         <button
-          disabled={!songs[findSongIndex() + 1]}
+          disabled={!hasNext}
           onClick={() => handleSkipTrack(SkipDirection.FORWARD)}
         >
           <SkipForward className="skip-forward" size={30} strokeWidth={1.5} />
