@@ -36,9 +36,23 @@ const Settings: React.FC = () => {
         <div className="setting">
           <h3>Theme</h3>
 
-          <button onClick={handleToggleDarkMode}>
-            {isDarkMode ? <Sun /> : <Moon />}
-          </button>
+          <div className="theme-changer">
+            <button
+              className={!isDarkMode ? 'active' : ''}
+              onClick={handleToggleDarkMode}
+            >
+              <Sun />
+              <span>Light</span>
+            </button>
+
+            <button
+              className={isDarkMode ? 'active' : ''}
+              onClick={handleToggleDarkMode}
+            >
+              <Moon />
+              <span>Dark</span>
+            </button>
+          </div>
         </div>
 
         <div className="setting">
