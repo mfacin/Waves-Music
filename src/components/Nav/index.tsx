@@ -1,24 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BookOpen, Book, Moon, Sun } from 'react-feather'
+
+import { AppContext } from '../../contexts/AppContext'
 
 import './styles.scss'
 
-interface NavProps {
-  isLibraryOpen: boolean
-  setIsLibraryOpen: React.Dispatch<React.SetStateAction<boolean>>
-  isDarkMode: boolean
-  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const Nav: React.FC<NavProps> = ({
-  isLibraryOpen,
-  setIsLibraryOpen,
-  isDarkMode,
-  setIsDarkMode,
-}) => {
-  const handleOpenLibrary = () => {
-    setIsLibraryOpen(prevState => !prevState)
-  }
+const Nav: React.FC = () => {
+  const {
+    isDarkMode,
+    handleToggleDarkMode,
+    isLibraryOpen,
+    handleToggleLibraryOpen,
+  } = useContext(AppContext)
 
   const handleChangeDarkMode = () => {
     const newColor = isDarkMode ? '#d9efff' : '#28475d'
@@ -26,12 +19,12 @@ const Nav: React.FC<NavProps> = ({
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute('content', newColor)
 
-    setIsDarkMode(prevState => !prevState)
+    handleToggleDarkMode()
   }
 
   return (
     <nav>
-      <button onClick={handleOpenLibrary}>
+      <button onClick={handleToggleLibraryOpen}>
         {isLibraryOpen ? <Book /> : <BookOpen />}
       </button>
 

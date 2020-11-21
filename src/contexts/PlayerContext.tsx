@@ -1,9 +1,10 @@
 import React, { useCallback, useReducer } from 'react'
+
+import { PlayerReducer, SkipDirection } from './PlayerReducer'
+
 import { SongInt } from '../components/Song'
 
 import data from '../data'
-
-import { PlayerReducer, SkipDirection } from './PlayerReducer'
 
 export interface PlayerState {
   songs: Array<SongInt>
@@ -36,7 +37,7 @@ const initialState: PlayerState = {
   isPlaying: false,
 }
 
-const PlayerContext = React.createContext<PlayerContextInt>(
+export const PlayerContext = React.createContext<PlayerContextInt>(
   {} as PlayerContextInt
 )
 
@@ -75,4 +76,4 @@ const PlayerProvider: React.FC = ({ children }) => {
 }
 
 export default PlayerProvider
-export { PlayerContext, SkipDirection }
+export { SkipDirection }

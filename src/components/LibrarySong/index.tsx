@@ -1,24 +1,23 @@
 import React, { useContext } from 'react'
 
+import { AppContext } from '../../contexts/AppContext'
 import { PlayerContext } from '../../contexts/PlayerContext'
+
 import { SongInt } from '../Song'
 
 import './styles.scss'
 
 interface LibrarySongProps {
   song: SongInt
-  setIsLibraryOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const LibrarySong: React.FC<LibrarySongProps> = ({
-  song,
-  setIsLibraryOpen,
-}) => {
+const LibrarySong: React.FC<LibrarySongProps> = ({ song }) => {
   const { handleChangeCurrentSong } = useContext(PlayerContext)
+  const { handleToggleLibraryOpen } = useContext(AppContext)
 
   const handleSongSelect = async () => {
     if (window.innerWidth <= 768) {
-      setIsLibraryOpen(false)
+      handleToggleLibraryOpen()
     }
 
     handleChangeCurrentSong(song)

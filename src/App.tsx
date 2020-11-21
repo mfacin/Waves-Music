@@ -1,39 +1,28 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 
 import Nav from './components/Nav'
 import Library from './components/Library'
 import Song from './components/Song'
 import Player from './components/Player'
 
-import PlayerProvider from './contexts/PlayerContext'
+import { AppContext } from './contexts/AppContext'
 
 import './styles/html.scss'
 import './styles/app.scss'
 
 function App() {
-  const [isLibraryOpen, setIsLibraryOpen] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const { isDarkMode } = useContext(AppContext)
 
   return (
-    <PlayerProvider>
-      <div className={`app ${isDarkMode ? 'dark' : ''}`}>
-        <Library
-          isLibraryOpen={isLibraryOpen}
-          setIsLibraryOpen={setIsLibraryOpen}
-        />
+    <div className={`app ${isDarkMode ? 'dark' : ''}`}>
+      <Library />
 
-        <main>
-          <Nav
-            isLibraryOpen={isLibraryOpen}
-            setIsLibraryOpen={setIsLibraryOpen}
-            isDarkMode={isDarkMode}
-            setIsDarkMode={setIsDarkMode}
-          />
-          <Song />
-          <Player />
-        </main>
-      </div>
-    </PlayerProvider>
+      <main>
+        <Nav />
+        <Song />
+        <Player />
+      </main>
+    </div>
   )
 }
 

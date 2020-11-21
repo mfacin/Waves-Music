@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
+import PlayerProvider from './contexts/PlayerContext'
+import AppProvider from './contexts/AppContext'
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppProvider>
+      <PlayerProvider>
+        <App />
+      </PlayerProvider>
+    </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

@@ -1,37 +1,28 @@
 import React, { useContext } from 'react'
 import { X } from 'react-feather'
+
+import { AppContext } from '../../contexts/AppContext'
 import { PlayerContext } from '../../contexts/PlayerContext'
 
 import LibrarySong from '../LibrarySong'
 
 import './styles.scss'
 
-interface LibraryProps {
-  isLibraryOpen: boolean
-  setIsLibraryOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const Library: React.FC<LibraryProps> = ({
-  isLibraryOpen,
-  setIsLibraryOpen,
-}) => {
+const Library: React.FC = () => {
   const { songs } = useContext(PlayerContext)
+  const { isLibraryOpen, handleToggleLibraryOpen } = useContext(AppContext)
 
   return (
     <div className={`library ${isLibraryOpen ? 'open' : ''}`}>
       <div className="title">
         <h2>Library</h2>
-        <button onClick={() => setIsLibraryOpen(false)}>
+        <button onClick={handleToggleLibraryOpen}>
           <X />
         </button>
       </div>
       <div className="library-songs">
         {songs.map(song => (
-          <LibrarySong
-            key={song.id}
-            song={song}
-            setIsLibraryOpen={setIsLibraryOpen}
-          />
+          <LibrarySong key={song.id} song={song} />
         ))}
       </div>
     </div>

@@ -7,6 +7,7 @@ import React, {
   useContext,
 } from 'react'
 import { Play, Pause, SkipBack, SkipForward } from 'react-feather'
+
 import { PlayerContext, SkipDirection } from '../../contexts/PlayerContext'
 
 import timeFormater from '../../utils/timeFormater'
