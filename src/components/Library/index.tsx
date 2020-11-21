@@ -13,7 +13,7 @@ const Library: React.FC = () => {
   const { isLibraryOpen, handleToggleLibraryOpen } = useContext(AppContext)
 
   return (
-    <div className={`library ${isLibraryOpen ? 'open' : ''}`}>
+    <div className={`panel left ${isLibraryOpen ? 'open' : ''}`}>
       <div className="title">
         <h2>Library</h2>
         <button onClick={handleToggleLibraryOpen}>

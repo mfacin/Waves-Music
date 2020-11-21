@@ -12,10 +12,14 @@ export interface PlayerState {
   currentSongIndex: number
   hasNext: boolean
   hasPreviows: boolean
+
   currentTime: number
   duration: number
-  percentage: number
+  songPercentage: number
   isPlaying: boolean
+
+  volume: number
+  isMuted: boolean
 }
 
 interface PlayerContextInt extends PlayerState {
@@ -23,6 +27,8 @@ interface PlayerContextInt extends PlayerState {
   handlePlayPauseSong: () => void
   handleChangeSongInfo: (time: number, duration: number) => void
   handleSkipTrack: (direction: SkipDirection) => void
+  handleVolumeChange: (volume: number) => void
+  handleMuteUnmute: () => void
 }
 
 const initialState: PlayerState = {
@@ -33,8 +39,10 @@ const initialState: PlayerState = {
   hasPreviows: false,
   currentTime: 0,
   duration: 0,
-  percentage: 0,
+  songPercentage: 0,
   isPlaying: false,
+  volume: 0.5,
+  isMuted: false,
 }
 
 export const PlayerContext = React.createContext<PlayerContextInt>(
@@ -49,16 +57,24 @@ const PlayerProvider: React.FC = ({ children }) => {
   }, [])
 
   const handlePlayPauseSong = useCallback(() => {
-    dispatch({ type: 'CHANGE_IS_PLAYING' })
+    dispatch({ type: 'TOGGLE_IS_PLAYING' })
   }, [])
 
   const handleChangeSongInfo = useCallback((time: number, duration: number) => {
     dispatch({ type: 'UPDATE_TIME', time, duration })
   }, [])
 
-  const handleSkipTrack = (direction: SkipDirection) => {
+  const handleSkipTrack = useCallback((direction: SkipDirection) => {
     dispatch({ type: 'SKIP_SONG', direction })
-  }
+  }, [])
+
+  const handleVolumeChange = useCallback((volume: number) => {
+    dispatch({ type: 'CHANGE_VOLUME', volume })
+  }, [])
+
+  const handleMuteUnmute = useCallback(() => {
+    dispatch({ type: 'TOGGLE_IS_MUTED' })
+  }, [])
 
   return (
     <PlayerContext.Provider
@@ -68,6 +84,8 @@ const PlayerProvider: React.FC = ({ children }) => {
         handlePlayPauseSong,
         handleChangeSongInfo,
         handleSkipTrack,
+        handleVolumeChange,
+        handleMuteUnmute,
       }}
     >
       {children}

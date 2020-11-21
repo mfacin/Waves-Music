@@ -18,11 +18,18 @@ type PlayerActionType =
       duration: number
     }
   | {
-      type: 'CHANGE_IS_PLAYING'
+      type: 'TOGGLE_IS_PLAYING'
     }
   | {
       type: 'SKIP_SONG'
       direction: SkipDirection
+    }
+  | {
+      type: 'CHANGE_VOLUME'
+      volume: number
+    }
+  | {
+      type: 'TOGGLE_IS_MUTED'
     }
 
 const calculatePercentage = (currentTime: number, duration: number) => {
@@ -50,7 +57,7 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
       })),
       duration: 0,
       currentTime: 0,
-      percentage: 0,
+      songPercentage: 0,
     }
   }
 
@@ -66,9 +73,9 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
         ...state,
         currentTime: action.time,
         duration: action.duration,
-        percentage: calculatePercentage(action.time, action.duration),
+        songPercentage: calculatePercentage(action.time, action.duration),
       }
-    case 'CHANGE_IS_PLAYING':
+    case 'TOGGLE_IS_PLAYING':
       if (!state.duration) return state
 
       return {
@@ -85,6 +92,16 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
       }
 
       return handleChangeSong(state.currentSongIndex + action.direction)
+    case 'CHANGE_VOLUME':
+      return {
+        ...state,
+        volume: action.volume,
+      }
+    case 'TOGGLE_IS_MUTED':
+      return {
+        ...state,
+        isMuted: !state.isMuted,
+      }
     default:
       return state
   }

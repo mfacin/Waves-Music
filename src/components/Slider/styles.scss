@@ -1,0 +1,54 @@
+.track {
+  width: 100%;
+  height: 12px;
+
+  background-color: #84cbfd;
+  border-radius: 6px;
+
+  position: relative;
+
+  input {
+    width: 100%;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  input[type='range']:focus {
+    outline: none;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+  }
+
+  input[type='range']::-moz-range-thumb {
+    appearance: none;
+    background: transparent;
+    border: none;
+    width: 12px;
+    height: 12px;
+  }
+
+  .animate-track-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    pointer-events: none;
+
+    .animate-track {
+      width: 100%;
+      height: 100%;
+
+      transform: translateX(50%);
+    }
+  }
+}

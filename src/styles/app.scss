@@ -13,7 +13,8 @@
   h1,
   h2,
   h3,
-  svg {
+  svg,
+  span {
     color: #262f42;
     transition: color 0.2s ease;
   }
@@ -23,7 +24,7 @@
     transition: color 0.2s ease;
   }
 
-  .library {
+  .panel {
     background-color: #f4f9ff;
   }
 
@@ -37,7 +38,8 @@
     h1,
     h2,
     h3,
-    svg {
+    svg,
+    span {
       color: #f4f9ff;
     }
 
@@ -45,7 +47,7 @@
       color: #f6fbff;
     }
 
-    .library {
+    .panel {
       background-color: #0e1114;
     }
 
@@ -60,3 +62,5 @@
     padding: 1rem;
   }
 }
+
+@import './panel';

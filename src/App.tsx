@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 
-import Nav from './components/Nav'
 import Library from './components/Library'
+import Settings from './components/Settings'
+import Nav from './components/Nav'
 import Song from './components/Song'
 import Player from './components/Player'
 
@@ -16,6 +17,7 @@ function App() {
   return (
     <div className={`app ${isDarkMode ? 'dark' : ''}`}>
       <Library />
+      <Settings />
 
       <main>
         <Nav />

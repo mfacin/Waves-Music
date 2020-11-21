@@ -40,6 +40,10 @@ button {
   outline: none;
   cursor: pointer;
 
+  &.small {
+    padding: 8px;
+  }
+
   &:hover {
     background-color: rgba(82, 182, 253, 0.25);
   }
@@ -51,6 +55,11 @@ button {
     &:hover {
       background-color: transparent;
     }
+  }
+
+  span {
+    margin-left: 12px;
+    font-size: 16px;
   }
 }
 

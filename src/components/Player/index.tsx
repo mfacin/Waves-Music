@@ -11,6 +11,7 @@ import { Play, Pause, SkipBack, SkipForward } from 'react-feather'
 import { PlayerContext, SkipDirection } from '../../contexts/PlayerContext'
 
 import timeFormater from '../../utils/timeFormater'
+import Slider from '../Slider'
 
 import './styles.scss'
 
@@ -21,17 +22,17 @@ const Player: React.FC = () => {
     hasPreviows,
     currentTime,
     duration,
-    percentage,
+    songPercentage,
     isPlaying,
     handlePlayPauseSong,
     handleChangeSongInfo,
     handleSkipTrack,
+    volume,
+    isMuted,
   } = useContext(PlayerContext)
 
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  // play/pause the song when the state changes
-  // keep playing when the current song changes
   useEffect(() => {
     if (isPlaying) {
       audioRef.current?.play()
@@ -40,7 +41,14 @@ const Player: React.FC = () => {
     }
   }, [currentSong, isPlaying])
 
-  // update the range information with the current time
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = volume
+  }, [volume])
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.muted = isMuted
+  }, [isMuted])
+
   const handleTimeUpdate = (e: SyntheticEvent<HTMLAudioElement>) => {
     const {
       target: { currentTime, duration },
@@ -65,27 +73,14 @@ const Player: React.FC = () => {
       <div className="time-control">
         <p>{timeFormater(currentTime)}</p>
 
-        <div className="track">
-          <input
-            min={0}
-            max={duration}
-            value={currentTime}
-            onChange={handleRangeChange}
-            type="range"
-          />
-
-          <div
-            className="animate-track-container"
-            style={{
-              background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})`,
-            }}
-          >
-            <div
-              className="animate-track"
-              style={{ transform: `translateX(${percentage}%)` }}
-            ></div>
-          </div>
-        </div>
+        <Slider
+          colors={currentSong.color}
+          percentage={songPercentage}
+          min={0}
+          max={duration}
+          value={currentTime}
+          onChange={handleRangeChange}
+        />
 
         <p>{timeFormater(duration)}</p>
       </div>
