@@ -1,11 +1,13 @@
 import React, { ChangeEvent, useContext } from 'react'
+import { Moon, Sun, X, VolumeX, Volume2 } from 'react-feather'
+import Select from 'react-select'
+
+import Slider from '../Slider'
 
 import { AppContext } from '../../contexts/AppContext'
-import { Moon, Sun, X, VolumeX, Volume2 } from 'react-feather'
+import { PlayerContext } from '../../contexts/PlayerContext'
 
 import './styles.scss'
-import Slider from '../Slider'
-import { PlayerContext } from '../../contexts/PlayerContext'
 
 const Settings: React.FC = () => {
   const {
@@ -15,12 +17,31 @@ const Settings: React.FC = () => {
     handleToggleDarkMode,
   } = useContext(AppContext)
 
-  const { volume, handleVolumeChange, isMuted, handleMuteUnmute } = useContext(
-    PlayerContext
-  )
+  const {
+    volume,
+    handleVolumeChange,
+    isMuted,
+    handleMuteUnmute,
+    shouldSkipToSongStart,
+    handleChangeSkipToStart,
+  } = useContext(PlayerContext)
+
+  const options = [
+    { value: 'skip-back', label: 'Skip to the previows song' },
+    { value: 'music-start', label: "Skip to the song's start" },
+  ]
+
+  const handleSetDarkMode = (dark: boolean) => {
+    if (isDarkMode === dark) return
+    handleToggleDarkMode()
+  }
 
   const handleRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleVolumeChange(Number(e.target.value) / 100)
+  }
+
+  const handleSelectChange = (value: { value: string }) => {
+    handleChangeSkipToStart(value.value === 'music-start')
   }
 
   return (
@@ -39,7 +60,7 @@ const Settings: React.FC = () => {
           <div className="theme-changer">
             <button
               className={!isDarkMode ? 'active' : ''}
-              onClick={handleToggleDarkMode}
+              onClick={() => handleSetDarkMode(false)}
             >
               <Sun />
               <span>Light</span>
@@ -47,7 +68,7 @@ const Settings: React.FC = () => {
 
             <button
               className={isDarkMode ? 'active' : ''}
-              onClick={handleToggleDarkMode}
+              onClick={() => handleSetDarkMode(true)}
             >
               <Moon />
               <span>Dark</span>
@@ -71,6 +92,19 @@ const Settings: React.FC = () => {
               onChange={handleRangeChange}
             />
           </div>
+        </div>
+
+        <div className="setting">
+          <h3>When previows button pressed</h3>
+
+          <Select
+            className={`settings-select ${isDarkMode ? 'dark' : ''}`}
+            classNamePrefix="settings-select"
+            options={options}
+            value={shouldSkipToSongStart ? options[1] : options[0]}
+            onChange={value => handleSelectChange(value as { value: string })}
+            isSearchable={false}
+          />
         </div>
       </div>
     </div>

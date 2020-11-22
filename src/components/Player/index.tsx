@@ -29,9 +29,16 @@ const Player: React.FC = () => {
     handleSkipTrack,
     volume,
     isMuted,
+    shouldSkipToSongStart,
   } = useContext(PlayerContext)
 
   const audioRef = useRef<HTMLAudioElement>(null)
+
+  useEffect(() => {
+    if (!audioRef.current) return
+
+    audioRef.current.src = currentSong.audio
+  }, [currentSong])
 
   useEffect(() => {
     if (isPlaying) {
@@ -42,17 +49,23 @@ const Player: React.FC = () => {
   }, [currentSong, isPlaying])
 
   useEffect(() => {
-    if (audioRef.current) audioRef.current.volume = volume
+    if (!audioRef.current) return
+
+    audioRef.current.volume = volume
   }, [volume])
 
   useEffect(() => {
-    if (audioRef.current) audioRef.current.muted = isMuted
+    if (!audioRef.current) return
+
+    audioRef.current.muted = isMuted
   }, [isMuted])
 
   const handleTimeUpdate = (e: SyntheticEvent<HTMLAudioElement>) => {
     const {
       target: { currentTime, duration },
     } = e as BaseSyntheticEvent
+
+    console.log(currentTime)
 
     handleChangeSongInfo(currentTime, isNaN(duration) ? 0 : duration)
   }
@@ -87,7 +100,9 @@ const Player: React.FC = () => {
 
       <div className="play-control">
         <button
-          disabled={!hasPreviows}
+          disabled={
+            currentTime >= 5 && shouldSkipToSongStart ? false : !hasPreviows
+          }
           onClick={() => handleSkipTrack(SkipDirection.BACK)}
         >
           <SkipBack className="skip-back" size={30} strokeWidth={1.5} />
@@ -110,7 +125,6 @@ const Player: React.FC = () => {
       </div>
       <audio
         ref={audioRef}
-        src={currentSong.audio}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleTimeUpdate}
         onEnded={() => handleSkipTrack(SkipDirection.FORWARD)}

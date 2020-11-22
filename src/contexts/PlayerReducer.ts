@@ -31,6 +31,10 @@ type PlayerActionType =
   | {
       type: 'TOGGLE_IS_MUTED'
     }
+  | {
+      type: 'CHANGE_SKIP_TO_START'
+      skip: boolean
+    }
 
 const calculatePercentage = (currentTime: number, duration: number) => {
   const roundedCurrent = Math.floor(Number(currentTime))
@@ -87,6 +91,15 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
         return { ...state, isPlaying: false }
       }
 
+      if (
+        action.direction === SkipDirection.BACK &&
+        state.shouldSkipToSongStart &&
+        state.currentTime >= 5
+      ) {
+        console.log('oi')
+        return handleChangeSong(state.currentSongIndex)
+      }
+
       if (!state.hasPreviows && action.direction === SkipDirection.BACK) {
         return state
       }
@@ -101,6 +114,11 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
       return {
         ...state,
         isMuted: !state.isMuted,
+      }
+    case 'CHANGE_SKIP_TO_START':
+      return {
+        ...state,
+        shouldSkipToSongStart: action.skip,
       }
     default:
       return state
