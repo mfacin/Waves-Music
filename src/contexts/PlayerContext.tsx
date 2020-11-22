@@ -13,6 +13,7 @@ export interface PlayerState {
   hasNext: boolean
   hasPreviows: boolean
   shouldSkipToSongStart: boolean
+  shouldRepeat: boolean
 
   currentTime: number
   duration: number
@@ -31,6 +32,7 @@ interface PlayerContextInt extends PlayerState {
   handleVolumeChange: (volume: number) => void
   handleMuteUnmute: () => void
   handleChangeSkipToStart: (skip: boolean) => void
+  handleToggleRepeat: () => void
 }
 
 const initialState: PlayerState = {
@@ -39,7 +41,8 @@ const initialState: PlayerState = {
   currentSongIndex: 0,
   hasNext: data()[1] !== undefined,
   hasPreviows: false,
-  shouldSkipToSongStart: false,
+  shouldSkipToSongStart: true,
+  shouldRepeat: false,
   currentTime: 0,
   duration: 0,
   songPercentage: 0,
@@ -79,6 +82,10 @@ const PlayerProvider: React.FC = ({ children }) => {
     dispatch({ type: 'TOGGLE_IS_MUTED' })
   }, [])
 
+  const handleToggleRepeat = useCallback(() => {
+    dispatch({ type: 'TOGGLE_REPEAT' })
+  }, [])
+
   const handleChangeSkipToStart = useCallback(
     (skip: boolean) => {
       if (skip === state.shouldSkipToSongStart) return
@@ -99,6 +106,7 @@ const PlayerProvider: React.FC = ({ children }) => {
         handleVolumeChange,
         handleMuteUnmute,
         handleChangeSkipToStart,
+        handleToggleRepeat,
       }}
     >
       {children}

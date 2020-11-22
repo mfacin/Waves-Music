@@ -32,6 +32,9 @@ type PlayerActionType =
       type: 'TOGGLE_IS_MUTED'
     }
   | {
+      type: 'TOGGLE_REPEAT'
+    }
+  | {
       type: 'CHANGE_SKIP_TO_START'
       skip: boolean
     }
@@ -87,21 +90,29 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
         isPlaying: !state.isPlaying,
       }
     case 'SKIP_SONG':
-      if (!state.hasNext && action.direction === SkipDirection.FORWARD) {
-        return { ...state, isPlaying: false }
+      if (action.direction === SkipDirection.FORWARD) {
+        if (!state.hasNext && state.shouldRepeat) {
+          return handleChangeSong(0)
+        }
+
+        if (!state.hasNext) {
+          return { ...state, isPlaying: false }
+        }
       }
 
-      if (
-        action.direction === SkipDirection.BACK &&
-        state.shouldSkipToSongStart &&
-        state.currentTime >= 5
-      ) {
-        console.log('oi')
-        return handleChangeSong(state.currentSongIndex)
-      }
+      if (action.direction === SkipDirection.BACK) {
+        if (state.shouldSkipToSongStart && state.currentTime >= 5) {
+          console.log('oi')
+          return handleChangeSong(state.currentSongIndex)
+        }
 
-      if (!state.hasPreviows && action.direction === SkipDirection.BACK) {
-        return state
+        if (state.shouldRepeat) {
+          return handleChangeSong(state.songs.length - 1)
+        }
+
+        if (!state.hasPreviows) {
+          return state
+        }
       }
 
       return handleChangeSong(state.currentSongIndex + action.direction)
@@ -114,6 +125,11 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
       return {
         ...state,
         isMuted: !state.isMuted,
+      }
+    case 'TOGGLE_REPEAT':
+      return {
+        ...state,
+        shouldRepeat: !state.shouldRepeat,
       }
     case 'CHANGE_SKIP_TO_START':
       return {

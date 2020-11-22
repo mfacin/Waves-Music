@@ -6,7 +6,14 @@ import React, {
   ChangeEvent,
   useContext,
 } from 'react'
-import { Play, Pause, SkipBack, SkipForward } from 'react-feather'
+import {
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Repeat,
+  Shuffle,
+} from 'react-feather'
 
 import { PlayerContext, SkipDirection } from '../../contexts/PlayerContext'
 
@@ -30,6 +37,8 @@ const Player: React.FC = () => {
     volume,
     isMuted,
     shouldSkipToSongStart,
+    shouldRepeat,
+    handleToggleRepeat,
   } = useContext(PlayerContext)
 
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -65,8 +74,6 @@ const Player: React.FC = () => {
       target: { currentTime, duration },
     } = e as BaseSyntheticEvent
 
-    console.log(currentTime)
-
     handleChangeSongInfo(currentTime, isNaN(duration) ? 0 : duration)
   }
 
@@ -99,28 +106,43 @@ const Player: React.FC = () => {
       </div>
 
       <div className="play-control">
+        <button>
+          <Shuffle size={25} strokeWidth={1.5} />
+        </button>
+
         <button
           disabled={
-            currentTime >= 5 && shouldSkipToSongStart ? false : !hasPreviows
+            shouldRepeat
+              ? false
+              : currentTime >= 5 && shouldSkipToSongStart
+              ? false
+              : !hasPreviows
           }
           onClick={() => handleSkipTrack(SkipDirection.BACK)}
         >
-          <SkipBack className="skip-back" size={30} strokeWidth={1.5} />
+          <SkipBack size={30} strokeWidth={1.5} />
         </button>
 
         <button disabled={!duration} onClick={handlePlayPauseSong}>
           {isPlaying ? (
-            <Pause className="pause" size={40} strokeWidth={1.5} />
+            <Pause size={40} strokeWidth={1.5} />
           ) : (
-            <Play className="play" size={40} strokeWidth={1.5} />
+            <Play size={40} strokeWidth={1.5} />
           )}
         </button>
 
         <button
-          disabled={!hasNext}
+          disabled={shouldRepeat ? false : !hasNext}
           onClick={() => handleSkipTrack(SkipDirection.FORWARD)}
         >
-          <SkipForward className="skip-forward" size={30} strokeWidth={1.5} />
+          <SkipForward size={30} strokeWidth={1.5} />
+        </button>
+
+        <button
+          className={shouldRepeat ? 'active' : ''}
+          onClick={handleToggleRepeat}
+        >
+          <Repeat size={25} strokeWidth={1.5} />
         </button>
       </div>
       <audio
