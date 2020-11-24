@@ -39,6 +39,8 @@ const Player: React.FC = () => {
     shouldSkipToSongStart,
     shouldRepeat,
     handleToggleRepeat,
+    isShuffle,
+    handleShuffle,
   } = useContext(PlayerContext)
 
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -106,7 +108,7 @@ const Player: React.FC = () => {
       </div>
 
       <div className="play-control">
-        <button>
+        <button onClick={handleShuffle} className={isShuffle ? 'active' : ''}>
           <Shuffle size={25} strokeWidth={1.5} />
         </button>
 

@@ -6,14 +6,18 @@ import { SongInt } from '../components/Song'
 
 import data from '../data'
 
+const parsedData = data()
+
 export interface PlayerState {
   songs: Array<SongInt>
+  queue: Array<SongInt>
   currentSong: SongInt
   currentSongIndex: number
   hasNext: boolean
   hasPreviows: boolean
   shouldSkipToSongStart: boolean
   shouldRepeat: boolean
+  isShuffle: boolean
 
   currentTime: number
   duration: number
@@ -33,16 +37,19 @@ interface PlayerContextInt extends PlayerState {
   handleMuteUnmute: () => void
   handleChangeSkipToStart: (skip: boolean) => void
   handleToggleRepeat: () => void
+  handleShuffle: () => void
 }
 
 const initialState: PlayerState = {
-  songs: data(),
-  currentSong: data()[0],
+  songs: parsedData,
+  queue: parsedData,
+  currentSong: parsedData[0],
   currentSongIndex: 0,
-  hasNext: data()[1] !== undefined,
+  hasNext: parsedData[1] !== undefined,
   hasPreviows: false,
   shouldSkipToSongStart: true,
   shouldRepeat: false,
+  isShuffle: false,
   currentTime: 0,
   duration: 0,
   songPercentage: 0,
@@ -95,6 +102,10 @@ const PlayerProvider: React.FC = ({ children }) => {
     [state.shouldSkipToSongStart]
   )
 
+  const handleShuffle = useCallback(() => {
+    dispatch({ type: 'TOGGLE_SHUFFLE' })
+  }, [])
+
   return (
     <PlayerContext.Provider
       value={{
@@ -107,6 +118,7 @@ const PlayerProvider: React.FC = ({ children }) => {
         handleMuteUnmute,
         handleChangeSkipToStart,
         handleToggleRepeat,
+        handleShuffle,
       }}
     >
       {children}

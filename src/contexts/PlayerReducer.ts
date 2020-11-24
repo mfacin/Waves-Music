@@ -1,5 +1,7 @@
 import React from 'react'
 import { SongInt } from '../components/Song'
+import calculatePercentage from '../utils/calculatePercentage'
+import shuffle from '../utils/shuffle'
 import { PlayerState } from './PlayerContext'
 
 export enum SkipDirection {
@@ -38,14 +40,9 @@ type PlayerActionType =
       type: 'CHANGE_SKIP_TO_START'
       skip: boolean
     }
-
-const calculatePercentage = (currentTime: number, duration: number) => {
-  const roundedCurrent = Math.floor(Number(currentTime))
-  const roundedDuration = Math.floor(duration)
-  const newPercentage = Math.floor((roundedCurrent / roundedDuration) * 100)
-
-  return newPercentage
-}
+  | {
+      type: 'TOGGLE_SHUFFLE'
+    }
 
 export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
   state: PlayerState,
@@ -54,19 +51,29 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
   const handleChangeSong = (index: number, song?: SongInt) => {
     return {
       ...state,
-      currentSong: song ? { ...song, active: true } : state.songs[index],
+      queue: state.queue.map(s => ({
+        ...s,
+        active: song ? s.id === song.id : s.id === state.queue[index].id,
+      })),
+      currentSong: song ? { ...song, active: true } : state.queue[index],
       currentSongIndex: index,
-      hasNext: state.songs[index + 1] !== undefined,
-      hasPreviows: state.songs[index - 1] !== undefined,
+      hasNext: state.isShuffle
+        ? state.queue[index + 1] !== undefined
+        : state.songs[index + 1] !== undefined,
+      hasPreviows: state.isShuffle
+        ? state.queue[index - 1] !== undefined
+        : state.songs[index - 1] !== undefined,
       songs: state.songs.map(s => ({
         ...s,
-        active: song ? s.id === song.id : s.id === state.songs[index].id,
+        active: song ? s.id === song.id : s.id === state.queue[index].id,
       })),
       duration: 0,
       currentTime: 0,
       songPercentage: 0,
     }
   }
+
+  console.log(action.type)
 
   switch (action.type) {
     case 'CHANGE_CURRENT_SONG':
@@ -135,6 +142,33 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
       return {
         ...state,
         shouldSkipToSongStart: action.skip,
+      }
+    case 'TOGGLE_SHUFFLE':
+      let newQueue
+
+      if (state.isShuffle) {
+        newQueue = state.songs
+      } else {
+        const queueWithoutCurrentSong = state.queue.filter(song => !song.active)
+        queueWithoutCurrentSong.unshift(state.currentSong)
+        newQueue = shuffle(queueWithoutCurrentSong)
+      }
+
+      const index = state.songs.findIndex(
+        song => song.id === state.currentSong.id
+      )
+
+      return {
+        ...state,
+        isShuffle: !state.isShuffle,
+        queue: state.isShuffle ? state.songs : newQueue,
+        currentSongIndex: state.isShuffle ? index : 0,
+        hasNext: state.isShuffle
+          ? state.songs[index + 1] !== undefined
+          : newQueue[1] !== undefined,
+        hasPreviows: state.isShuffle
+          ? state.songs[index - 1] !== undefined
+          : false,
       }
     default:
       return state
