@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Heart } from 'react-feather'
 
 import Library from './components/Library'
 import Settings from './components/Settings'
@@ -24,6 +25,21 @@ function App() {
         <Song />
         <Player />
       </main>
+
+      <footer>
+        <span>Feito com</span>
+        <Heart size={15} strokeWidth={2.5} />
+        <span>por</span>
+        <span>
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://github.com/TheusFacin"
+          >
+            <b>Theus</b>
+          </a>
+        </span>
+      </footer>
     </div>
   )
 }
