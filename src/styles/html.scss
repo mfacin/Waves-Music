@@ -53,8 +53,10 @@ button {
     background-color: rgba(82, 182, 253, 0.25);
   }
 
-  &:hover {
-    background-color: rgba(82, 182, 253, 0.25);
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(82, 182, 253, 0.25);
+    }
   }
 
   &:disabled {
