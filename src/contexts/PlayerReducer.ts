@@ -1,8 +1,9 @@
 import React from 'react'
 import { SongInt } from '../components/Song'
+import { PlayerState } from './PlayerContext'
+import localStorage from '../utils/localStorage'
 import calculatePercentage from '../utils/calculatePercentage'
 import shuffle from '../utils/shuffle'
-import { PlayerState } from './PlayerContext'
 
 export enum SkipDirection {
   BACK = -1,
@@ -124,21 +125,29 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
 
       return handleChangeSong(state.currentSongIndex + action.direction)
     case 'CHANGE_VOLUME':
+      localStorage.set('volume', action.volume)
+
       return {
         ...state,
         volume: action.volume,
       }
     case 'TOGGLE_IS_MUTED':
+      localStorage.set('isMuted', !state.isMuted)
+
       return {
         ...state,
         isMuted: !state.isMuted,
       }
     case 'TOGGLE_REPEAT':
+      localStorage.set('shouldRepeat', !state.shouldRepeat)
+
       return {
         ...state,
         shouldRepeat: !state.shouldRepeat,
       }
     case 'CHANGE_SKIP_TO_START':
+      localStorage.set('shouldSkipToSongStart', action.skip)
+
       return {
         ...state,
         shouldSkipToSongStart: action.skip,
@@ -157,6 +166,8 @@ export const PlayerReducer: React.Reducer<PlayerState, PlayerActionType> = (
       const index = state.songs.findIndex(
         song => song.id === state.currentSong.id
       )
+
+      localStorage.set('isShuffle', !state.isShuffle)
 
       return {
         ...state,

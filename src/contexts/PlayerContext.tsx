@@ -5,6 +5,7 @@ import { PlayerReducer, SkipDirection } from './PlayerReducer'
 import { SongInt } from '../components/Song'
 
 import data from '../data'
+import localStorage from '../utils/localStorage'
 
 const parsedData = data()
 
@@ -47,15 +48,15 @@ const initialState: PlayerState = {
   currentSongIndex: 0,
   hasNext: parsedData[1] !== undefined,
   hasPreviows: false,
-  shouldSkipToSongStart: true,
-  shouldRepeat: false,
-  isShuffle: false,
+  shouldSkipToSongStart: localStorage.get('shouldSkipToSongStart', true),
+  shouldRepeat: localStorage.get('shouldRepeat', false),
+  isShuffle: localStorage.get('isShuffle', false),
   currentTime: 0,
   duration: 0,
   songPercentage: 0,
   isPlaying: false,
-  volume: 0.5,
-  isMuted: false,
+  volume: localStorage.get('volume', 0.5),
+  isMuted: localStorage.get('isMuted', false),
 }
 
 export const PlayerContext = React.createContext<PlayerContextInt>(

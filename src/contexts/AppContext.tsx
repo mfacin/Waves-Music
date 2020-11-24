@@ -1,5 +1,6 @@
 import React, { useCallback, useReducer } from 'react'
 import { AppReducer } from './AppReducer'
+import localStorage from '../utils/localStorage'
 
 export interface AppState {
   isLibraryOpen: boolean
@@ -16,7 +17,7 @@ interface AppContextInt extends AppState {
 const initialState: AppState = {
   isLibraryOpen: false,
   isSettingsOpen: false,
-  isDarkMode: false,
+  isDarkMode: localStorage.get('isDarkMode', false),
 }
 
 export const AppContext = React.createContext<AppContextInt>(
